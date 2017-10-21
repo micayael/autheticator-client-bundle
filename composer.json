@@ -1,0 +1,28 @@
+{
+  "name": "micayael/autheticator-client-bundle",
+  "version": "v1.0.0",
+  "type": "symfony-bundle",
+  "description": "Cliente para Authenticator",
+  "keywords": ["authenticator"],
+  "homepage": "https://github.com/micayael/autheticator-client-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Juan Ardissone",
+      "email": "micayael@gmail.com",
+      "homepage": "http://micayael.com"
+    }
+  ],
+  "require": {
+    "csa/guzzle-bundle": "^2.0",
+    "lcobucci/jwt": "^3.2",
+    "sensio/framework-extra-bundle": "^3.0.2",
+    "symfony/symfony": "3.3.*"
+  },
+  "autoload": {
+    "psr-4": { "Micayael\\Authenticator\\ClientBundle\\": "" }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

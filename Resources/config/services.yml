@@ -1,0 +1,7 @@
+services:
+    authenticator_client.authenticator_user_provider:
+        class: Micayael\Authenticator\ClientBundle\Security\User\AuthenticatorUserProvider
+
+    authenticator_client.login_form_authenticator:
+        class: Micayael\Authenticator\ClientBundle\Security\LoginFormAuthenticator
+        arguments: ['@form.factory', '@router', '@csa_guzzle.client.authenticator', '%authenticator_client_config%']

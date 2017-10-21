@@ -1,0 +1,7 @@
+authenticator_security_login:
+    path:             /login
+    defaults:         { _controller: AuthenticatorClientBundle:Security:login}
+
+authenticator_security_logout:
+    path:             /logout
+    defaults:         { _controller: AuthenticatorClientBundle:Security:logout}
