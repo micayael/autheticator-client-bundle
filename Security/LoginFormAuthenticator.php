@@ -3,6 +3,7 @@
 namespace Micayael\Authenticator\ClientBundle\Security;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use Lcobucci\JWT\Parser;
 use Micayael\Authenticator\ClientBundle\Form\LoginForm;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -37,7 +39,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-        $loginPath = $this->router->generate('authenticator_security_login');
+        $loginPath = $this->getLoginUrl();
         // Para eliminar el app_dev.php en caso de ser otro environment diferente a producción
         $loginPath = substr($loginPath, strrpos($loginPath, '/'));
 
@@ -97,6 +99,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             }
 
             return new AuthenticatorUser($token->getClaim('username'), $roles);
+        } catch (ConnectException $e) {
+            throw new AuthenticationException('No fue posible autenticar al usuario');
         } catch (RequestException $e) {
             return null;
         }
@@ -107,7 +111,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
 
         if (!$targetPath) {
-            $targetPath = $this->router->generate('homepage');
+            $targetPath = $this->router->generate($this->configs['default_target_route']);
         }
 
         return new RedirectResponse($targetPath);

@@ -23,8 +23,8 @@ Instalación del bundle
 ~~~
         $bundles = [
             ...
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Csa\Bundle\GuzzleBundle\CsaGuzzleBundle(),
+            new Micayael\Authenticator\ClientBundle\AuthenticatorClientBundle(),
             ...
         ];
 ~~~
@@ -46,7 +46,9 @@ csa_guzzle:
 ### Configuración del bundle
 
 ~~~
+authenticator_client:
     token_uri: /api/jwt/token
+    default_target_route: admin # opcional, default: admin
     type: basic_auth
     basic_auth:
         username: app1
@@ -101,3 +103,7 @@ authenticator:
         - { path: ^/admin, roles: ROLE_USER }
 ~~~
 
+Referencias
+-----------
+
+- https://knpuniversity.com/screencast/symfony-security

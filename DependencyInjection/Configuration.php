@@ -52,6 +52,12 @@ class Configuration implements ConfigurationInterface
                     ->info('AppId para conexión en caso de haber seleccionado esta forma de autenticación')
                     ->cannotBeEmpty()
                 ->end()
+
+                ->scalarNode('default_target_route')
+                    ->info('Ruta predeterminada para ingresar después de un login si no existe referrer')
+                    ->defaultValue('admin')
+                    ->cannotBeEmpty()
+                ->end()
             ->end()
         ;
 
