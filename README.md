@@ -103,6 +103,16 @@ authenticator:
         - { path: ^/admin, roles: ROLE_USER }
 ~~~
 
+Documentación Extra
+-------------------
+
+- Para definir tiempo de vida y nombre de la sesión:  https://symfony.com/doc/current/reference/configuration/framework.html#session
+- En caso de que ocurra un error se puede apuntar en la configuración del
+csa_guzzle al entorno de desarrollo del authenticator
+base_uri: http://localhost:8001/app_dev.php y para ver los datos se puede cambiar la
+configuración dentro del config_dev.yml de la aplicación cliente para que intercepte
+las redirecciones intercept_redirects: true
+
 Referencias
 -----------
 
