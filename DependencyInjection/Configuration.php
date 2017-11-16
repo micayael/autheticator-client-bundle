@@ -34,6 +34,11 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()
                 ->end()
 
+                ->scalarNode('change_password_url')
+                    ->info('indica la url del authenticator para que el usuario solicite nuevamente su password')
+                    ->isRequired()
+                ->end()
+
                 ->arrayNode('basic_auth')
                     ->cannotBeEmpty()
                     ->children()

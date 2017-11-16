@@ -94,6 +94,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
             $roles = ['ROLE_USER'];
 
+            if($token->getClaim('super_admin')){
+                $roles[] = 'ROLE_ADMIN';
+            }
+
             foreach ($token->getClaim('permisos') as $permiso) {
                 $roles[] = 'ROLE_'.strtoupper($permiso);
             }

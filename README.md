@@ -49,6 +49,7 @@ csa_guzzle:
 authenticator_client:
     token_uri: /api/jwt/token
     default_target_route: admin # opcional, default: admin
+    change_password_url: http://authenticator_url/admin/resetting/request
     type: basic_auth
     basic_auth:
         username: app1
@@ -60,6 +61,7 @@ o
 ~~~
 authenticator_client:
     token_uri: /api/jwt/token
+    change_password_url: http://authenticator_url/admin/resetting/request
     type: app_id
     app_id: app2_id_test
 ~~~
