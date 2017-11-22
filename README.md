@@ -6,15 +6,9 @@ Instalación del bundle
 
 ### Agregar al composer.json
 ~~~
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/micayael/autheticator-client-bundle.git"
-        }
-    ],
     "require": {
         ...
-        "micayael/autheticator-client-bundle": "dev-master"
+        "micayael/autheticator-client-bundle": "^1.0"
     },
 ~~~
 
