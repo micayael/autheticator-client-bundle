@@ -22,6 +22,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                    ->scalarNode('host')
+                    ->info('Servidor del authenticator')
+                    ->cannotBeEmpty()
+                ->end()
+
                 ->scalarNode('token_uri')
                     ->info('URI del servicio para obtener tokens')
                     ->defaultValue('/api/jwt/token')

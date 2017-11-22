@@ -45,9 +45,13 @@ csa_guzzle:
 
 ### Configuración del bundle
 
+> Para ver la documentación de las configuraciones:
+> bin/console config:dump-reference authenticator_client
+
 ~~~
 authenticator_client:
-    token_uri: /api/jwt/token
+    host: http://IP:PORT
+    token_uri: /api/jwt/token # opcional
     default_target_route: admin # opcional, default: admin
     change_password_url: http://authenticator_url/admin/resetting/request
     type: basic_auth
@@ -60,7 +64,7 @@ o
 
 ~~~
 authenticator_client:
-    token_uri: /api/jwt/token
+    host: http://IP:PORT
     change_password_url: http://authenticator_url/admin/resetting/request
     type: app_id
     app_id: app2_id_test

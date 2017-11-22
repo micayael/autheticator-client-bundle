@@ -64,7 +64,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         try {
-            $config_token_uri = $this->configs['token_uri'];
+            $config_token_uri = $this->configs['host'] . $this->configs['token_uri'];
 
             $jsonContentToSend = null;
 
