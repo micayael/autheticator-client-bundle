@@ -1,6 +1,6 @@
 {
   "name": "micayael/autheticator-client-bundle",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "type": "symfony-bundle",
   "description": "Cliente para Authenticator",
   "keywords": ["authenticator"],

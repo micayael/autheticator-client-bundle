@@ -8,7 +8,7 @@ Instalación del bundle
 ~~~
     "require": {
         ...
-        "micayael/autheticator-client-bundle": "^1.0"
+        "micayael/autheticator-client-bundle": "^1.0.0"
     },
 ~~~
 
