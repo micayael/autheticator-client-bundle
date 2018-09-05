@@ -1,6 +1,5 @@
 {
   "name": "micayael/autheticator-client-bundle",
-  "version": "v1.0.2",
   "type": "symfony-bundle",
   "description": "Cliente para Authenticator",
   "keywords": ["authenticator"],
@@ -14,10 +13,10 @@
     }
   ],
   "require": {
-    "csa/guzzle-bundle": "^2.0",
+    "csa/guzzle-bundle": "^3.1",
     "lcobucci/jwt": "^3.2",
-    "sensio/framework-extra-bundle": "^3.0.2",
-    "symfony/symfony": "3.3.*"
+    "symfony/form": "^4.1",
+    "symfony/security": "^4.1"
   },
   "autoload": {
     "psr-4": { "Micayael\\Authenticator\\ClientBundle\\": "" }

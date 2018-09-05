@@ -137,4 +137,28 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         return false;
     }
+
+    /**
+     * Does the authenticator support the given Request?
+     *
+     * If this returns false, the authenticator will be skipped.
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function supports(Request $request)
+    {
+        $loginPath = $this->getLoginUrl();
+        // Para eliminar el app_dev.php en caso de ser otro environment diferente a producción
+        $loginPath = substr($loginPath, strrpos($loginPath, '/'));
+
+        $isLoginSubmit = $request->getPathInfo() == $loginPath && $request->isMethod('POST');
+
+        if (!$isLoginSubmit) {
+            return false;
+        }
+
+        return true;
+    }
 }
