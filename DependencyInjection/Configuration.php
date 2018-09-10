@@ -45,7 +45,6 @@ class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->arrayNode('basic_auth')
-                    ->cannotBeEmpty()
                     ->children()
                         ->scalarNode('username')
                             ->info('Usuario para autenticación por basic authentication')

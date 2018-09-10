@@ -37,16 +37,52 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->configs = $configs;
     }
 
+    protected function getLoginUrl()
+    {
+        return $this->router->generate('authenticator_security_login');
+    }
+
+    /**
+     * Does the authenticator support the given Request?
+     *
+     * If this returns false, the authenticator will be skipped.
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function supports(Request $request)
+    {
+        return false !== strpos($this->getLoginUrl(), $request->getPathInfo()) && $request->isMethod('POST');
+    }
+
+    /**
+     * Get the authentication credentials from the request and return them
+     * as any type (e.g. an associate array).
+     *
+     * Whatever value you return here will be passed to getUser() and checkCredentials()
+     *
+     * For example, for a form login, you might:
+     *
+     *      return array(
+     *          'username' => $request->request->get('_username'),
+     *          'password' => $request->request->get('_password'),
+     *      );
+     *
+     * Or for an API token that's on a header, you might use:
+     *
+     *      return array('api_key' => $request->headers->get('X-API-TOKEN'));
+     *
+     * @param Request $request
+     *
+     * @return mixed Any non-null value
+     *
+     * @throws \UnexpectedValueException If null is returned
+     */
     public function getCredentials(Request $request)
     {
-        $loginPath = $this->getLoginUrl();
-        // Para eliminar el app_dev.php en caso de ser otro environment diferente a producción
-        $loginPath = substr($loginPath, strrpos($loginPath, '/'));
-
-        $isLoginSubmit = $request->getPathInfo() == $loginPath && $request->isMethod('POST');
-
-        if (!$isLoginSubmit) {
-            return;
+        if(!$this->supports($request)){
+            return false;
         }
 
         $form = $this->formFactory->create(LoginForm::class);
@@ -61,6 +97,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $data;
     }
 
+    /**
+     * Return a UserInterface object based on the credentials.
+     *
+     * The *credentials* are the return value from getCredentials()
+     *
+     * You may throw an AuthenticationException if you wish. If you return
+     * null, then a UsernameNotFoundException is thrown for you.
+     *
+     * @param mixed                 $credentials
+     * @param UserProviderInterface $userProvider
+     *
+     * @throws AuthenticationException
+     *
+     * @return UserInterface|null
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         try {
@@ -110,6 +161,44 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
     }
 
+    /**
+     * Returns true if the credentials are valid.
+     *
+     * If any value other than true is returned, authentication will
+     * fail. You may also throw an AuthenticationException if you wish
+     * to cause authentication to fail.
+     *
+     * The *credentials* are the return value from getCredentials()
+     *
+     * @param mixed         $credentials
+     * @param UserInterface $user
+     *
+     * @return bool
+     *
+     * @throws AuthenticationException
+     */
+    public function checkCredentials($credentials, UserInterface $user)
+    {
+        // Retorna siempre true porque con el método getUser ya se valida la autenticación del usuario
+        // contra el servicio
+        return true;
+    }
+
+    /**
+     * Called when authentication executed and was successful!
+     *
+     * This should return the Response sent back to the user, like a
+     * RedirectResponse to the last page they visited.
+     *
+     * If you return null, the current request will continue, and the user
+     * will be authenticated. This makes sense, for example, with an API.
+     *
+     * @param Request        $request
+     * @param TokenInterface $token
+     * @param string         $providerKey The provider (i.e. firewall) key
+     *
+     * @return Response|null
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
@@ -121,18 +210,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return new RedirectResponse($targetPath);
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        // Retorna siempre true porque con el método getUser ya se valida la autenticación del usuario
-        // contra el servicio
-        return true;
-    }
-
-    protected function getLoginUrl()
-    {
-        return $this->router->generate('authenticator_security_login');
-    }
-
+    /**
+     * Does this method support remember me cookies?
+     *
+     * Remember me cookie will be set if *all* of the following are met:
+     *  A) This method returns true
+     *  B) The remember_me key under your firewall is configured
+     *  C) The "remember me" functionality is activated. This is usually
+     *      done by having a _remember_me checkbox in your form, but
+     *      can be configured by the "always_remember_me" and "remember_me_parameter"
+     *      parameters under the "remember_me" firewall key
+     *  D) The onAuthenticationSuccess method returns a Response object
+     *
+     * @return bool
+     */
     public function supportsRememberMe()
     {
         return false;
